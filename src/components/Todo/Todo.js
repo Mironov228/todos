@@ -35,12 +35,12 @@ let Check = styled.div`
     color: black;
     text-align: center;
 `
-export function Todo(props) {
-    let value = props.value.performed;
+export function Todo({idValue, value}) {
+    let isChecked = value.performed;
     return (
-        <StyleTodo data-id={props.idValue}className={classNames("todo", {active: value})} performed={props.performed}>
-            <Check className="check">{value ? <CheckOutlined/> : ""}</Check>
-            <div>{props.value.input}</div>
+        <StyleTodo data-id={idValue} className={classNames("todo", {active: isChecked})}>
+            <Check className="check">{isChecked ? <CheckOutlined/> : ""}</Check>
+            <div>{value.input}</div>
             <Close><CloseOutlined className="close"/></Close>
         </StyleTodo>
     )

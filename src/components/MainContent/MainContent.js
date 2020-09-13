@@ -14,19 +14,19 @@ let Main = styled.main`
     box-shadow: 0 3px 10px 1px grey;
     max-width: 100%;
 `
-export const MainContent = (props) =>
+export const MainContent = ({value, onInputChange, filter, onCheckClick, todos, setFilter, deleteTodo, clearCompletedTodos, createNewTodo}) =>
     <Main id="main">
         <Input 
         placeholder="What need to be done?"
-        onKeyDown={(e) => e.keyCode === 13? props.createNewTodo() : ''}
-        value={props.value}
-        onChange={props.onInputChange}/>
+        onKeyDown={(e) => e.keyCode === 13? createNewTodo() : ''}
+        value={value}
+        onChange={onInputChange}/>
         <TodosList 
-        filter={props.filter}
-        onCheckClick={props.onCheckClick}
-        todos={props.todos}
-        setFilter={props.setFilter}
-        deleteTodo={props.deleteTodo}
-        clearCompletedTodos={props.clearCompletedTodos}
+        filter={filter}
+        onCheckClick={onCheckClick}
+        todos={todos}
+        setFilter={setFilter}
+        deleteTodo={deleteTodo}
+        clearCompletedTodos={clearCompletedTodos}
         />
     </Main>

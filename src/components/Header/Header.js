@@ -6,10 +6,10 @@ const Title = styled.h1`
     color: pink;
     letter-spacing: 5px;
 `;
-export function Header(props) {
+export function Header({headerText}) {
     return (
         <header>
-            <Title>{props.headerText}</Title>
+            <Title>{headerText}</Title>
         </header>
     )
 }
