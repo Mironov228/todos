@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import {CloseOutlined, CheckOutlined} from "@ant-design/icons";
-import logo from "../../logo.svg";
 import classNames from 'classnames';
 let StyleTodo = styled.div`
     width: 100%;
