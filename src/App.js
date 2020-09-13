@@ -1,9 +1,9 @@
 import React from 'react';
-import Header from './components/Header/Header.js';
-import MainContent from './components/MainContent/MainContent.js';
+import {Header} from './components/Header/Header.js';
+import {MainContent} from './components/MainContent/MainContent.js';
 import './style.css'
 
-class App extends React.Component {
+export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,9 +21,9 @@ class App extends React.Component {
     });
   }
   createNewTodo = () => {
-    let inputValue = this.state.input;
-    let newTodo = {input: inputValue, performed:false};
-    if (inputValue == '') {
+    const inputValue = this.state.input;
+    const newTodo = {input: inputValue, performed:false};
+    if (inputValue === '') {
       return
     }
     this.setState(state => ({
@@ -32,7 +32,7 @@ class App extends React.Component {
     }), this.setToLocalstorage)
   }
   onCheckClick = (index) => {
-    let todos = this.state.todos.slice();
+    const {todos} = this.state;
     // Switch the "performed" property on the opposite  
     todos[index].performed = !todos[index].performed
     this.setState(state => ({
@@ -40,12 +40,12 @@ class App extends React.Component {
     }), this.setToLocalstorage);
   }
   clearCompletedTodos = () => {
-    let todos = this.state.todos;
+    const {todos} = this.state;
     // Clear todos list from completed todos
-    todos = todos.filter(val => !val.performed);
+    let result = todos.filter(val => !val.performed);
     this.setState(
         {
-          todos
+          todos: result
         },
         this.setToLocalstorage
     )
@@ -56,7 +56,7 @@ class App extends React.Component {
     })
   }
   deleteTodo = (key) => {
-    let todos = this.state.todos.slice();
+    const {todos} = this.state;
     // delete todo
     todos.splice(key, 1);
     this.setState(state => ({
@@ -82,4 +82,3 @@ class App extends React.Component {
     )
   }
 }
-export default App;

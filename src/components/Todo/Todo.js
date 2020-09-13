@@ -35,7 +35,7 @@ let Check = styled.div`
     color: black;
     text-align: center;
 `
-function Todo(props) {
+export function Todo(props) {
     let value = props.value.performed;
     return (
         <StyleTodo data-id={props.idValue}className={classNames("todo", {active: value})} performed={props.performed}>
@@ -45,4 +45,3 @@ function Todo(props) {
         </StyleTodo>
     )
 }
-export default Todo;

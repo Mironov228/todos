@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Todo from '../Todo/Todo.js';
+import {Todo} from '../Todo/Todo.js';
 
 const Panel = styled.div`
     padding: 10px 20px;
@@ -14,49 +14,71 @@ const Panel = styled.div`
 const PanelButton = styled.div`
     cursor: pointer;
 `
-function TodosList (props) {
-    let todos = props.todos;
+export function TodosList ({todos, deleteTodo, onCheckClick, filter, setFilter, clearCompletedTodos}) {
+    let haveCompletedTodos = todos.some(val => val.performed);
+    let clearCompletedButton =  haveCompletedTodos ?
+        <PanelButton onClick={clearCompletedTodos}>Clear completed</PanelButton> :
+        "";
     todos = todos.map((val, key) => {
-        if (!props.filter(val)) {
+        if (!filter(val)) {
             return
         }
         return <Todo 
-    deleteTodo={props.deleteTodo}
-    performed={val.performed}
-    value={val}
-    key={key}
-    idValue={key}
-    />})
-    return (
-        <div id="todos" onClick={(e) => {
-            if (e.target.closest('.close'))
-                props.deleteTodo(e.target.closest('.todo').getAttribute('data-id'))
-            else if(e.target.closest('.check')) {
-                console.log(e.target.closest(".todo").getAttribute('data-id'))
-                props.onCheckClick(e.target.closest(".todo").getAttribute("data-id"));
+                    deleteTodo={deleteTodo}
+                    performed={val.performed}
+                    value={val}
+                    key={key}
+                    idValue={key}
+                />
+            });
+    function filterAll(val) {
+        setFilter(
+            function(val) {
+                return true
             }
-        }}>
+        )
+    }
+    function filterActive(val) {
+        setFilter(
+            function(val) {
+                return !val.performed;
+            }
+        )
+    }
+    function filterCompleted(val) {
+        setFilter(
+            function(val) {
+                return val.performed;
+            }
+        )
+    }
+    function onTodosClick(e) {
+        if (e.target.closest('.close')) {
+            let todo = e.target.closest('.todo');
+            let indexTodo = todo.getAttribute('data-id')
+            deleteTodo(indexTodo);
+        }
+        else if(e.target.closest('.check')) {
+            let todo = e.target.closest(".todo");
+            let indexTodo = todo.getAttribute("data-id");
+            onCheckClick(indexTodo);
+        }
+    }
+    return (
+        <div id="todos" onClick={onTodosClick}>
             {todos}
             <Panel>
-                <PanelButton 
-                    onClick={() => {props.setFilter(
-                            function(val) {
-                                return true
-                            }
-                        )}}>
+                <PanelButton onClick={filterAll}>
                     all
                 </PanelButton>
-                <PanelButton onClick={() => {props.setFilter(function(val) {return !val.performed})}}>
+                <PanelButton onClick={filterActive}>
                     Active
                 </PanelButton>
-                <PanelButton onClick={() => {props.setFilter(function(val) {return val.performed})}}>
-                    Completed
+                <PanelButton onClick={filterCompleted}>
+                        Completed
                 </PanelButton>
-                {
-                    props.todos.some(val => val.performed) && 
-                <PanelButton onClick={props.clearCompletedTodos}>Clear completed</PanelButton> }
+                {clearCompletedButton}
             </Panel>
         </div>
     )
 }
-export default TodosList
