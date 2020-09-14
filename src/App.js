@@ -1,8 +1,8 @@
 import React from 'react';
 import {Header} from './components/Header/Header.js';
 import {MainContent} from './components/MainContent/MainContent.js';
+import {SvgForCheck} from "./components/SvgForCheck/SvgForCheck.js";
 import './style.css'
-
 export class App extends React.Component {
   constructor(props) {
     super(props);
@@ -22,18 +22,31 @@ export class App extends React.Component {
   }
   createNewTodo = () => {
     const inputValue = this.state.input;
-    const newTodo = {input: inputValue, performed:false};
     if (inputValue === '') {
       return
     }
+    const key = Date.now();
+    const newTodo = {input: inputValue, performed:false, key};
     this.setState(state => ({
       input: '',
       todos: [...state.todos, newTodo]
     }), this.setToLocalstorage)
   }
-  onCheckClick = (index) => {
+  onCheckClick = (key) => {
     const {todos} = this.state;
-    // Switch the "performed" property on the opposite  
+    // Get index target element of key
+    let index = -1;
+    for (let i = 0; i<todos.length;i++) {
+      if (todos[i].key == key) {
+        index = i;
+        break;
+      }
+    }
+    if(index===-1) {
+        console.log("TI PIDORAS" + key);
+        return;
+    }
+    // Switch the "performed" property on the opposite
     todos[index].performed = !todos[index].performed
     this.setState(state => ({
       todos
@@ -57,8 +70,20 @@ export class App extends React.Component {
   }
   deleteTodo = (key) => {
     const {todos} = this.state;
+    // Get index target element of key
+    let index = -1;
+    for (let i = 0; i<todos.length;i++) {
+      if (todos[i].key == key) {
+        index = i;
+        break;
+      }
+    }
+    if(index===-1) {
+        console.log("TI PIDORAS");
+        return;
+    }
     // delete todo
-    todos.splice(key, 1);
+    todos.splice(index, 1);
     this.setState(state => ({
       todos
     }), this.setToLocalstorage)
@@ -66,6 +91,7 @@ export class App extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <SvgForCheck/>
         <Header headerText="todos"/>
         <MainContent 
         value={this.state.input}

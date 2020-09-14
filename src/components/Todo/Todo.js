@@ -11,35 +11,40 @@ let StyleTodo = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: 0.4s;
-    &.active {
-        text-decoration: line-through;
-        color: #d9d9d9;
-        .check {
-            color: green;
-        }
-    }
 `
 let Close = styled.div`
     font-size: 16px;
     cursor: pointer;
 `
-let Check = styled.div`
+let Check = styled.input`
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+`;
+let Label = styled.label`
     width: 16px;
     height: 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
     border: 1px solid;
-    color: black;
-    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+
 `
 export function Todo({idValue, value}) {
     let isChecked = value.performed;
     return (
-        <StyleTodo data-id={idValue} className={classNames("todo", {active: isChecked})}>
-            <Check className="check">{isChecked ? <CheckOutlined/> : ""}</Check>
-            <div>{value.input}</div>
+        <StyleTodo data-id={idValue} className="todo">
+            <label className="todo__label">
+                <input className="todo__state" onClick={e => e.preventDefault()}type="checkbox" checked={isChecked}/>
+                
+                <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 25" className="todo__icon">
+                  <use xlinkHref="#todo__line" className="todo__line"></use>
+                  <use xlinkHref="#todo__box" className="todo__box"></use>
+                  <use xlinkHref="#todo__check" className="todo__check"></use>
+                  <use xlinkHref="#todo__circle" className="todo__circle"></use>
+                </svg>
+
+                <div className="todo__text" style={{fontSize: "30px"}}>{value.input}</div>
+            </label>
             <Close><CloseOutlined className="close"/></Close>
         </StyleTodo>
     )

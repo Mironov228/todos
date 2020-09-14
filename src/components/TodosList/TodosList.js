@@ -27,8 +27,8 @@ export function TodosList ({todos, deleteTodo, onCheckClick, filter, setFilter, 
                     deleteTodo={deleteTodo}
                     performed={val.performed}
                     value={val}
-                    key={key}
-                    idValue={key}
+                    key={val.key}
+                    idValue={val.key}
                 />
             });
     function filterAll(val) {
@@ -53,12 +53,14 @@ export function TodosList ({todos, deleteTodo, onCheckClick, filter, setFilter, 
         )
     }
     function onTodosClick(e) {
+        if (e.target.classList.contains('todo__state'))
+            return
         if (e.target.closest('.close')) {
             let todo = e.target.closest('.todo');
             let indexTodo = todo.getAttribute('data-id')
             deleteTodo(indexTodo);
         }
-        else if(e.target.closest('.check')) {
+        else if(e.target.closest('.todo__label')) {
             let todo = e.target.closest(".todo");
             let indexTodo = todo.getAttribute("data-id");
             onCheckClick(indexTodo);
