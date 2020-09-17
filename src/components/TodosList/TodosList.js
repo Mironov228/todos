@@ -14,57 +14,40 @@ const Panel = styled.div`
 const PanelButton = styled.div`
     cursor: pointer;
 `
-export function TodosList ({todos, deleteTodo, onCheckClick, filter, setFilter, clearCompletedTodos}) {
-    let haveCompletedTodos = todos.some(val => val.performed);
-    let clearCompletedButton =  haveCompletedTodos ?
-        <PanelButton onClick={clearCompletedTodos}>Clear completed</PanelButton> :
-        "";
+export function TodosList ({todos, deleteTodo, todoToggle, filter, filterSwitch, clearCompletedTodos}) {
     todos = todos.map((val, key) => {
         if (!filter(val)) {
             return
         }
         return <Todo 
                     deleteTodo={deleteTodo}
-                    performed={val.performed}
+                    isCompleted={val.isCompleted}
                     value={val}
                     key={val.key}
                     idValue={val.key}
                 />
             });
     function filterAll(val) {
-        setFilter(
-            function(val) {
-                return true
-            }
-        )
+        filterSwitch("all");
     }
     function filterActive(val) {
-        setFilter(
-            function(val) {
-                return !val.performed;
-            }
-        )
+        filterSwitch("active");
     }
     function filterCompleted(val) {
-        setFilter(
-            function(val) {
-                return val.performed;
-            }
-        )
+        filterSwitch("completed");
     }
     function onTodosClick(e) {
         if (e.target.classList.contains('todo__state'))
             return
         if (e.target.closest('.close')) {
             let todo = e.target.closest('.todo');
-            let indexTodo = todo.getAttribute('data-id')
-            deleteTodo(indexTodo);
+            let todoKey = todo.getAttribute('data-id')
+            deleteTodo(todoKey);
         }
         else if(e.target.closest('.todo__label')) {
-            let todo = e.target.closest(".todo");
-            let indexTodo = todo.getAttribute("data-id");
-            onCheckClick(indexTodo);
-        }
+            let todo = e.target.closest('.todo');
+            let todoKey = todo.getAttribute('data-id')
+            todoToggle(todoKey);        }
     }
     return (
         <div id="todos" onClick={onTodosClick}>
@@ -79,7 +62,6 @@ export function TodosList ({todos, deleteTodo, onCheckClick, filter, setFilter, 
                 <PanelButton onClick={filterCompleted}>
                         Completed
                 </PanelButton>
-                {clearCompletedButton}
             </Panel>
         </div>
     )

@@ -11,6 +11,7 @@ let StyleTodo = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    overflow: hidden;
 `
 let Close = styled.div`
     font-size: 16px;
@@ -21,20 +22,12 @@ let Check = styled.input`
     -webkit-appearance: none;
 
 `;
-let Label = styled.label`
-    width: 16px;
-    height: 16px;
-    border: 1px solid;
-    border-radius: 50%;
-    cursor: pointer;
-
-`
 export function Todo({idValue, value}) {
-    let isChecked = value.performed;
+    const {isCompleted} = value;
     return (
         <StyleTodo data-id={idValue} className="todo">
             <label className="todo__label">
-                <input className="todo__state" onClick={e => e.preventDefault()}type="checkbox" checked={isChecked}/>
+                <input className="todo__state" onClick={e => e.preventDefault()}type="checkbox" checked={isCompleted}/>
                 
                 <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 25" className="todo__icon">
                   <use xlinkHref="#todo__line" className="todo__line"></use>
@@ -43,7 +36,7 @@ export function Todo({idValue, value}) {
                   <use xlinkHref="#todo__circle" className="todo__circle"></use>
                 </svg>
 
-                <div className="todo__text" style={{fontSize: "30px"}}>{value.input}</div>
+                <div className="todo__text" style={{fontSize: "30px"}}>{value.value}</div>
             </label>
             <Close><CloseOutlined className="close"/></Close>
         </StyleTodo>

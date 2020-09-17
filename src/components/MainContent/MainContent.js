@@ -7,6 +7,9 @@ let Input = styled.input`
     padding: 10px 5px;
     width: 100%;
     text-align: center;
+    &:focus {
+        outline: none;
+    }
 `;
 let Main = styled.main`
     width: 400px;
@@ -14,18 +17,18 @@ let Main = styled.main`
     box-shadow: 0 3px 10px 1px grey;
     max-width: 100%;
 `
-export const MainContent = ({value, onInputChange, filter, onCheckClick, todos, setFilter, deleteTodo, clearCompletedTodos, createNewTodo}) =>
+export const MainContent = ({inputValue, onInputChange, filter, todoToggle, todos, filterSwitch, deleteTodo, clearCompletedTodos, todoAdd}) =>
     <Main id="main">
         <Input 
         placeholder="What need to be done?"
-        onKeyDown={(e) => e.keyCode === 13? createNewTodo() : ''}
-        value={value}
+        onKeyDown={(e) => e.keyCode === 13? todoAdd() : ''}
+        value={inputValue}
         onChange={onInputChange}/>
         <TodosList 
         filter={filter}
-        onCheckClick={onCheckClick}
+        todoToggle={todoToggle}
         todos={todos}
-        setFilter={setFilter}
+        filterSwitch={filterSwitch}
         deleteTodo={deleteTodo}
         clearCompletedTodos={clearCompletedTodos}
         />
