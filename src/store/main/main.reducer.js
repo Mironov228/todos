@@ -8,7 +8,10 @@ const filters = {
 };
 function handleTodoAdd(state, action) {
 	let copyState = {...state};
-	copyState.todos.push({value: action.value, key: Date.now(), isCompleted: false});
+	if (action.value.trim() === "") {
+		return state;
+	}
+	copyState.todos.push({value: action.value.trim(), key: Date.now(), isCompleted: false});
 	copyState.filter = filters.all;
 	setToLocalstorage(copyState.todos);
 	return copyState;
