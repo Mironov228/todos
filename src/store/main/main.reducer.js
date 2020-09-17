@@ -8,7 +8,7 @@ const filters = {
 };
 function handleTodoAdd(state, action) {
 	let copyState = {...state};
-	copyState.todos.push({value: action.value, key: Date.now(), isCompleted: true});
+	copyState.todos.push({value: action.value, key: Date.now(), isCompleted: false});
 	copyState.filter = filters.all;
 	setToLocalstorage(copyState.todos);
 	return copyState;
@@ -27,6 +27,7 @@ function handleTodoToggle(state, action) {
 		}
 		return todo;
 	});
+	setToLocalstorage(copyState.todos);
 	return copyState;
 }
 function handleFilterSwitch(state, action) {
@@ -35,7 +36,7 @@ function handleFilterSwitch(state, action) {
 	return copyState;	
 }
 let initialTodos = JSON.parse(localStorage.getItem("todos")) || [];
-let initialFilter = val => true;
+let initialFilter = filters.all;	
 export const mainReducer = (state={todos: initialTodos, filter: initialFilter}, action) => {
 	switch(action.type) {
 		case TODO_ADD:
